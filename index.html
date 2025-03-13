@@ -8,6 +8,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Roboto+Mono:wght@300;500&display=swap" rel="stylesheet">
 
     <style>
+    html {
+        scroll-behavior: smooth;
+    }
+    
     :root {
         --primary: #B8860B;    /* Dark Goldenrod */
         --accent: #DAA520;     /* Goldenrod */
@@ -211,6 +215,121 @@
         margin-bottom: 1rem;
     }
 
+    /* Blog section styles */
+    .blog {
+        padding: 6rem 0;
+    }
+
+    .blog h2 {
+        margin-bottom: 3rem;
+    }
+
+    .blog-card {
+        background: rgba(255,255,255,0.05);
+        border-radius: 8px;
+        border: 1px solid var(--primary);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .blog-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .blog-card-img {
+        height: 200px;
+        background: var(--technical);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .blog-card-img i {
+        font-size: 3rem;
+        color: var(--light);
+        opacity: 0.7;
+    }
+
+    .blog-card-content {
+        padding: 1.5rem;
+    }
+
+    .blog-card-content h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .blog-card-content p {
+        opacity: 0.8;
+        margin-bottom: 1rem;
+    }
+
+    .blog-card-date {
+        font-size: 0.85rem;
+        color: var(--accent);
+    }
+
+    /* Modal for blog post popups */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        z-index: 1000;
+        overflow-y: auto;
+    }
+
+    .modal-content {
+        background: var(--dark);
+        border: 1px solid var(--primary);
+        width: 90%;
+        max-width: 800px;
+        margin: 5% auto;
+        border-radius: 8px;
+        padding: 2rem;
+        position: relative;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 1.5rem;
+        color: var(--light);
+        cursor: pointer;
+    }
+
+    .modal-body {
+        margin-top: 1rem;
+    }
+
+    /* About section with mission details */
+    .about {
+        padding: 6rem 0;
+        background: rgba(184, 134, 11, 0.05);
+    }
+
+    .about h2 {
+        margin-bottom: 2rem;
+    }
+
+    .mission-statement {
+        margin-bottom: 2rem;
+        font-size: 1.2rem;
+        font-weight: 300;
+    }
+
+    .mission-statement strong {
+        color: var(--accent);
+    }
+
     @media (max-width: 768px) {
         .container {
             padding: 0 1.5rem;
@@ -249,8 +368,10 @@
             <nav class="navbar">
                 <div class="logo">Theorama</div>
                 <div class="nav-links">
+                    <a href="#about">About</a>
                     <a href="#solutions">Solutions</a>
                     <a href="#technology">Technology</a>
+                    <a href="#insights">Insights</a>
                     <a href="#contact">Contact</a>
                 </div>
             </nav>
@@ -262,16 +383,11 @@
         </div>
     </section>
 
-    <section class="trust-badges">
+    <section id="about" class="about">
         <div class="container">
-            <div class="badge">
-                <i class="fas fa-shield-alt"></i>
-                <span>FISMA Compliant</span>
-            </div>
-            <div class="badge">
-                <i class="fas fa-code-branch"></i>
-                <span>NIST AI RMF Aligned</span>
-            </div>
+            <h2>Our Mission</h2>
+            <p class="mission-statement">Realize <strong>trustworthy-by-default</strong> software development, and help humanity navigate the transition towards deploying vastly more software in the world.</p>
+            <p>At Theorama, we're automating formal verification for critical software infrastructure while developing baked-in oversight for AI-driven development. Our goal is to secure government, AI, and financial infrastructure before the offense-defense balance tips.</p>
         </div>
     </section>
 
@@ -289,6 +405,11 @@
                     <h3>Critical Systems</h3>
                     <p>Zero-trust validation for defense & infrastructure codebases.</p>
                 </div>
+                <div class="card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Proof-Producing Generation</h3>
+                    <p>Creating high-stakes applications with built-in verification.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -301,7 +422,7 @@
                     <i class="fas fa-layer-group"></i>
                     <div>
                         <h4>Formal Methods Engine</h4>
-                        <p>Coq/Isabelle integration with LLM outputs</p>
+                        <p>Coq/Isabelle/Lean integration with LLM outputs</p>
                     </div>
                 </div>
                 <div class="spec">
@@ -309,6 +430,13 @@
                     <div>
                         <h4>Cryptographic Attestation</h4>
                         <p>Ed25519-signed verification certificates</p>
+                    </div>
+                </div>
+                <div class="spec">
+                    <i class="fas fa-code-branch"></i>
+                    <div>
+                        <h4>Property Testing</h4>
+                        <p>Monitors changes to catch unexpected deviations</p>
                     </div>
                 </div>
             </div>
@@ -330,12 +458,103 @@
         </div>
     </section>
 
+    <section id="insights" class="blog">
+        <div class="container">
+            <h2>Latest Insights</h2>
+            <div class="grid">
+                <div class="blog-card" onclick="openModal('blog1')">
+                    <div class="blog-card-img">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="blog-card-content">
+                        <h3>Automating Verification for Critical Infrastructure</h3>
+                        <p>How we're addressing the labor bottleneck in software security.</p>
+                        <div class="blog-card-date">March 10, 2025</div>
+                    </div>
+                </div>
+                
+                <div class="blog-card" onclick="openModal('blog2')">
+                    <div class="blog-card-img">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="blog-card-content">
+                        <h3>Synthetic Datasets for Verification</h3>
+                        <p>Leveraging error messages in proof assistants to create powerful training data.</p>
+                        <div class="blog-card-date">February 28, 2025</div>
+                    </div>
+                </div>
+                
+                <div class="blog-card" onclick="openModal('blog3')">
+                    <div class="blog-card-img">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="blog-card-content">
+                        <h3>Transpilation: From CompCert to Lean</h3>
+                        <p>Demonstrating that models can handle industry-scale verification projects.</p>
+                        <div class="blog-card-date">February 15, 2025</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Templates -->
+    <div id="blog1" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('blog1')">&times;</span>
+            <h2>Automating Verification for Critical Infrastructure</h2>
+            <div class="blog-card-date">March 10, 2025</div>
+            <div class="modal-body">
+                <p>The primary reason we don't already have more software security is the labor bottleneck. Formal methods code is usually written by PhD-level engineers, and usually requires 10×—100× as many lines of code as what's being verified. As frontier AI labs make progress on reasoning, the labor bottleneck disappears.</p>
+                <p>Without software verification, the transition to AI-driven software development may pose severe risks:</p>
+                <ul>
+                    <li>Code is not adversarially robust. Coding AIs may increase volume and velocity of attacks on software infrastructure.</li>
+                    <li>LLMs are not adversarially robust, and cannot be deployed as complete stand-ins for review, testing, and bug-finding.</li>
+                    <li>As we deploy superhuman models without fully understanding their generalization behavior, we need methods for supervising AIs without understanding the full implementation of their solutions.</li>
+                </ul>
+                <p>At Theorama, we're building the infrastructure to make this possible.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="blog2" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('blog2')">&times;</span>
+            <h2>Synthetic Datasets for Verification</h2>
+            <div class="blog-card-date">February 28, 2025</div>
+            <div class="modal-body">
+                <p>We're generating domain-specific synthetic datasets with verification-specific advantages:</p>
+                <h3>Iterative Denoising to Leverage Error Messages</h3>
+                <p>Proof assistant error messages have rich structure. We start with a correct proof, add various errors or make omissions, then record a trace of fixing the issue. This transforms an RL problem into an SFT problem.</p>
+                <h3>Planning via Autoinformalization</h3>
+                <p>Theorems may have multiple different proofs, from different abstractions, different languages, or different versions of the proof software. Autoinformalization augments the dataset and provides fine-grained information about engineering choices.</p>
+                <p>These approaches allow us to train models specifically tailored to verification tasks.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="blog3" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('blog3')">&times;</span>
+            <h2>Transpilation: From CompCert to Lean</h2>
+            <div class="blog-card-date">February 15, 2025</div>
+            <div class="modal-body">
+                <p>We're measuring and improving domain-specific reasoning for verification. Frontier models augmented with RAG and in-context examples can solve small verification tasks. The major challenge is developing scaffolding that leverages these boosts systematically.</p>
+                <h3>Transpilation</h3>
+                <p>We're quite excited about translating CompCert from Coq to Lean, which will serve as a demonstration that models can handle industry-scale verification projects.</p>
+                <h3>Following Reasoning Templates</h3>
+                <p>The next step is to gear at projects like CompCert but for Rust, where a large fraction of the reasoning is within domain, and we have significant data and infrastructure for the required creativity for the harder parts.</p>
+                <p>This approach allows us to tackle increasingly complex verification tasks with scalable approaches.</p>
+            </div>
+        </div>
+    </div>
+
     <footer id="contact">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
                     <div class="logo">Theorama</div>
-                    <p>Washington, D.C.<br>SOC 2 Type II Certified</p>
+                    <p>Washington, D.C.</p>
                 </div>
                 <div class="footer-col">
                     <h4>Contact</h4>
@@ -345,5 +564,29 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Modal functionality
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+        
+        // Close modal when clicking outside of content
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let i = 0; i < modals.length; i++) {
+                if (event.target === modals[i]) {
+                    modals[i].style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        }
+    </script>
 </body>
 </html>
